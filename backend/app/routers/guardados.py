@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends
 from sqlmodel import select
-from db import get_session
-from models import Guardado
-from routers.auth import obtener_usuario_actual
+from ..db import get_session
+from ..models import Guardado
+from .auth import obtener_usuario_actual
 
 router = APIRouter(prefix="/guardados", tags=["guardados"])
 

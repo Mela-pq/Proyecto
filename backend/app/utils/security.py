@@ -3,20 +3,24 @@ from jose import JWTError, jwt
 from datetime import datetime, timedelta
 import os
 from dotenv import load_dotenv
+import bcrypt
 
 load_dotenv()
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-SECRET_KEY = os.getenv("SECRET_KEY", "mi-clave-secreta-pinterest-2024")
+SECRET_KEY = os.getenv("SECRET_KEY", "mi-clave-secreta-pinterest-2026")
 ALGORITHM = os.getenv("ALGORITHM", "HS256")
-ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 días
+ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  
 
 def hash_password(password: str) -> str:
-    return pwd_context.hash(password)
+    # Limitar a 72 bytes y convertir a bytes
+    password_bytes = password.encode('utf-8')[:72]
+    salt = bcrypt.gensalt()
+    return bcrypt.hashpw(password_bytes, salt).decode('utf-8')
 
 def verify_password(plain: str, hashed: str) -> bool:
-    return pwd_context.verify(plain, hashed)
+    plain_bytes = plain.encode('utf-8')[:72]
+    hashed_bytes = hashed.encode('utf-8')
+    return bcrypt.checkpw(plain_bytes, hashed_bytes)
 
 def crear_token(usuario_id: int, username: str, email: str) -> str:
     expira = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)

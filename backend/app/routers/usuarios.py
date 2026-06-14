@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlmodel import select
-from db import get_session
-from models import Usuario, UsuarioCreate
-from utils.security import hash_password
+from ..db import get_session
+from ..models import Usuario, UsuarioCreate
+from ..utils.security import hash_password
 
 router = APIRouter(prefix="/usuarios", tags=["usuarios"])
 
@@ -20,7 +20,8 @@ def registrar(data: UsuarioCreate, session=Depends(get_session)):
     usuario = Usuario(
         email=data.email,
         username=data.username,
-        password_hash=hash_password(data.password)
+        password_hash=hash_password(data.password),
+        fecha_nacimiento=data.fecha_nacimiento
     )
     session.add(usuario)
     session.commit()

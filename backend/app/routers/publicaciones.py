@@ -1,27 +1,43 @@
 from fastapi import APIRouter, HTTPException, Depends, Query
 from sqlmodel import select, func
-from db import get_session
-from models import Publicacion, PublicacionCreate, Like, Comentario, Guardado
-from routers.auth import obtener_usuario_actual
+from ..db import get_session
+from ..models import Publicacion, PublicacionCreate, Like, Comentario, Guardado, Usuario
+from .auth import obtener_usuario_actual
 
 router = APIRouter(prefix="/publicaciones", tags=["publicaciones"])
 
 @router.post("/", status_code=201)
 def crear_publicacion(
-    pub_data: PublicacionCreate,
     imagen_url: str,
+    titulo: str = None,
+    descripcion: str = None,
+    categoria: str = "general",
+    tags: str = None,
     usuario=Depends(obtener_usuario_actual),
     session=Depends(get_session)
 ):
     nueva = Publicacion(
-        **pub_data.dict(),
+        titulo=titulo,
+        descripcion=descripcion,
+        categoria=categoria,
+        tags=tags,
         imagen_url=imagen_url,
         usuario_id=usuario.id
     )
     session.add(nueva)
     session.commit()
     session.refresh(nueva)
-    return {"id": nueva.id, "imagen_url": nueva.imagen_url, "titulo": nueva.titulo}
+    
+    return {
+        "id": nueva.id,
+        "imagen_url": nueva.imagen_url,
+        "titulo": nueva.titulo,
+        "descripcion": nueva.descripcion,
+        "categoria": nueva.categoria,
+        "tags": nueva.tags,
+        "usuario_id": nueva.usuario_id,
+        "fecha": nueva.fecha
+    }
 
 @router.get("/")
 def listar_publicaciones(
@@ -49,6 +65,8 @@ def listar_publicaciones(
         likes = session.exec(select(func.count(Like.id)).where(Like.publicacion_id == pub.id)).one()
         comentarios = session.exec(select(func.count(Comentario.id)).where(Comentario.publicacion_id == pub.id)).one()
         
+        usuario = session.get(Usuario, pub.usuario_id)
+        
         resultado.append({
             "id": pub.id,
             "imagen_url": pub.imagen_url,
@@ -57,6 +75,10 @@ def listar_publicaciones(
             "categoria": pub.categoria,
             "tags": pub.tags,
             "usuario_id": pub.usuario_id,
+            "usuario": {
+                "username": usuario.username if usuario else f"Usuario {pub.usuario_id}",
+                "avatar_url": usuario.avatar_url if usuario else None
+            } if usuario else None,
             "fecha": pub.fecha,
             "likes": likes,
             "comentarios": comentarios

@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from db import create_tables
-from routers import auth, usuarios, publicaciones, comentarios, likes, guardados, uploads
+from .db import create_tables
+from .routers import auth, usuarios, publicaciones, comentarios, likes, guardados, uploads
 
 app = FastAPI(title="Pinterest API", version="1.0.0")
 
@@ -31,3 +31,7 @@ app.include_router(uploads.router)
 @app.get("/")
 def root():
     return {"message": "Pinterest API", "status": "online"}
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}

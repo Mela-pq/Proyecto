@@ -8,6 +8,7 @@ class Usuario(SQLModel, table=True):
     username: str = Field(unique=True, index=True)
     password_hash: str
     avatar_url: Optional[str] = None
+    fecha_nacimiento: Optional[str] = None
     fecha_registro: datetime = Field(default_factory=datetime.now)
     
     publicaciones: List["Publicacion"] = Relationship(back_populates="usuario")
@@ -44,17 +45,24 @@ class Like(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     usuario_id: int = Field(foreign_key="usuario.id")
     publicacion_id: int = Field(foreign_key="publicacion.id")
+    
+    usuario: Optional[Usuario] = Relationship(back_populates="likes")
+    publicacion: Optional[Publicacion] = Relationship(back_populates="likes")
 
 class Guardado(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     usuario_id: int = Field(foreign_key="usuario.id")
     publicacion_id: int = Field(foreign_key="publicacion.id")
+    
+    usuario: Optional[Usuario] = Relationship(back_populates="guardados")
+    publicacion: Optional[Publicacion] = Relationship(back_populates="guardados")
 
 # Schemas (para validación)
 class UsuarioCreate(SQLModel):
     email: str
     username: str
     password: str
+    fecha_nacimiento: Optional[str] = None
 
 class LoginRequest(SQLModel):
     email: str

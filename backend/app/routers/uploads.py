@@ -1,6 +1,6 @@
 from fastapi import APIRouter, UploadFile, File, Depends
-from routers.auth import obtener_usuario_actual
-from utils.s3 import subir_imagen
+from .auth import obtener_usuario_actual
+from ..utils.s3 import subir_imagen
 
 router = APIRouter(prefix="/upload", tags=["upload"])
 
