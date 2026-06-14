@@ -5,7 +5,7 @@ La aplicación desarrollada es una plataforma web diseñada para ofrecer una exp
 
 **- Tecnologías Utilizadas -**
 
-El proyecto está dividido en una arquitectura desacoplada (Frontend y Backend) utilizando la siguiente lógica.
+El proyecto está dividido en una arquitectura (Frontend y Backend) utilizando la siguiente lógica.
 
 **Frontend**
 * **React (Vite):** Librería principal para la construcción de la interfaz de usuario basada en componentes.
