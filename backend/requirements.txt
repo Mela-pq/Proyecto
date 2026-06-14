@@ -1,0 +1,7 @@
+fastapi
+sqlmodel
+uvicorn
+bcrypt
+python-jose
+python-multipart
+boto3
