@@ -12,7 +12,7 @@ El proyecto está dividido en una arquitectura desacoplada (Frontend y Backend) 
 * **Tailwind CSS:** Framework de CSS utilitario para un diseño responsivo, moderno y estilizado.
 * **React Router Dom:** Gestión de rutas y navegación SPA (Single Page Application).
 
-### **Backend**
+**Backend**
 * **FastAPI:** Framework de Python de alto rendimiento para la construcción de la API REST.
 * **SQLite:** Base de datos relacional ligera utilizada para la persistencia de datos (usuarios, publicaciones, etc.).
 * **Uvicorn:** Servidor para ejecutar la aplicación de FastAPI.
