@@ -15,6 +15,6 @@ El proyecto está dividido en una arquitectura desacoplada (Frontend y Backend) 
 ### **Backend**
 * **FastAPI:** Framework de Python de alto rendimiento para la construcción de la API REST.
 * **SQLite:** Base de datos relacional ligera utilizada para la persistencia de datos (usuarios, publicaciones, etc.).
-* **Uvicorn:** Servidor ASGI para ejecutar la aplicación de FastAPI.
+* **Uvicorn:** Servidor para ejecutar la aplicación de FastAPI.
 
 By: Josué Camisan - Milena Taco - Melany Quilumba 
