@@ -143,31 +143,6 @@ function PinCard({ id, imageUrl, title, author, authorAvatar, likes: initialLike
           </footer>
         )}
       </figure>
-      
-      <section className="flex items-center gap-2 mt-2 px-1">
-        <img 
-          src={authorAvatar || 'https://cdn-icons-png.flaticon.com/128/6676/6676016.png'} 
-          alt={author}
-          className="w-8 h-8 rounded-full object-cover"
-        />
-        <section className="flex flex-col">
-          <p className="font-semibold text-sm hover:underline cursor-pointer">{author}</p>
-          <ul className="flex gap-3 text-xs text-gray-500">
-            <li className="flex items-center gap-1">
-              <FaHeart className="text-xs" />
-              <span>{likesCount}</span>
-            </li>
-            <li className="flex items-center gap-1">
-              <FaComment className="text-xs" />
-              <span>{comments || 0}</span>
-            </li>
-            <li className="flex items-center gap-1">
-              <FaSave className="text-xs" />
-              <span>{savesCount}</span>
-            </li>
-          </ul>
-        </section>
-      </section>
     </article>
   );
 }
